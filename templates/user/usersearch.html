@@ -1,0 +1,64 @@
+{% extends 'user/userdetailsview.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+        <th scope="col">No.</th>
+      <th scope="col">Book name</th>
+      <th scope="col">Book price</th>
+      <th scope="col">Author</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if books %}
+        {% for book in books %}
+       <tr>
+            <th scope="row">{{forloop.counter}}</th>
+           <td>{{ book.title }}</td>
+           <td>{{ book.price }}</td>
+           <td>{{ book.author }}</td>
+           <td><a href="{% url 'details' book.id %}" class="btn btn-primary">Details</a>
+           <a href="{% url 'update' book.id %}" class="btn btn-success">Update</a>
+           <a href="{% url 'delete' book.id %}" class="btn btn-danger">Delete</a></td>
+       </tr>
+
+   {% endfor %}
+{% endif %}
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.previous.page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+      {% endif %}
+
+      {% for num in page.paginator.page_range %}
+
+    <li class="page-item {% if page_number == num %}activate{% endif %}">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+    </li>
+
+      {% endfor %}
+
+      {% if page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo</span>
+      </a>
+    </li>
+      {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}
